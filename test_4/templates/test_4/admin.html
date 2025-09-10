@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html>
 <head>
   <title>Admin Panel - Test 4</title>
@@ -88,5 +88,109 @@ function updateTeamName(team){
 
 setInterval(update,1000);
 </script>
+</body>
+</html> {% endcomment %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - Test 4</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f0f0f0; }
+    .card { background: #fff; padding: 20px; margin: 20px auto; width: 400px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    button { margin: 5px; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #ddd; }
+    input { padding: 5px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel</h1>
+
+  <div class="card">
+    <h2>Game Timer: <span id="main_timer">03:00</span></h2>
+    <button onclick="changeTimer('main','start')">Start</button>
+    <button onclick="changeTimer('main','pause')">Pause</button>
+    <button onclick="changeTimer('main','reset')">Reset</button>
+  </div>
+
+  <div class="card">
+    <h2>Penalty Timer: <span id="penalty_timer">00:00</span></h2>
+    <button onclick="changeTimer('penalty','start')">Start</button>
+    <button onclick="changeTimer('penalty','pause')">Pause</button>
+    <button onclick="changeTimer('penalty','reset')">Reset</button>
+  </div>
+          
+  <div class="card">
+    <h2>Teams</h2>
+    <input id="red_name_input" placeholder="Red Team Name">
+    <button onclick="updateTeam('red')">Update Red</button>
+    <br>
+    <input id="blue_name_input" placeholder="Blue Team Name">
+    <button onclick="updateTeam('blue')">Update Blue</button>
+  </div>
+
+  <div class="card">
+    <h2>Scores</h2>
+    <button onclick="updateScore('red',1)">Red +1</button>
+    <button onclick="updateScore('red',-1)">Red -1</button>
+    <span id="score_red">0</span><br>
+    <button onclick="updateScore('blue',1)">Blue +1</button>
+    <button onclick="updateScore('blue',-1)">Blue -1</button>
+    <span id="score_blue">0</span>
+  </div>
+
+  <div class="card">
+    <h2>Round: <span id="round">1</span></h2>
+    <button onclick="nextRound()">Next Round</button>
+  </div>
+
+<script>
+function formatTime(sec){
+  let m = Math.floor(sec/60);
+  let s = sec % 60;
+  return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+function updateUI(){
+  fetch("/test_4/get_timer/")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("main_timer").innerText = formatTime(data.main_timer);
+      document.getElementById("penalty_timer").innerText = formatTime(data.penalty_timer);
+      document.getElementById("score_red").innerText = `${data.team_red_name}: ${data.team_red_score}`;
+      document.getElementById("score_blue").innerText = `${data.team_blue_name}: ${data.team_blue_score}`;
+      document.getElementById("round").innerText = data.round;
+    });
+}
+
+// Timer actions
+function changeTimer(timerType, action){
+  fetch(`/test_4/${timerType}_timer/${action}/`).then(updateUI);
+}
+
+// Update score
+function updateScore(team, delta){
+  fetch(`/test_4/update_score/${team}/${delta}/`).then(updateUI);
+}
+
+// Update team name
+function updateTeam(team){
+  let name = team === 'red' ? document.getElementById("red_name_input").value 
+                             : document.getElementById("blue_name_input").value;
+  fetch(`/test_4/update_team_name/${team}/${name}/`).then(updateUI);
+}
+
+// Next round
+function nextRound(){
+  fetch("/test_4/next_round/").then(updateUI);
+}
+
+// Auto-refresh every 1 sec
+setInterval(updateUI, 1000);
+</script>
+
 </body>
 </html>

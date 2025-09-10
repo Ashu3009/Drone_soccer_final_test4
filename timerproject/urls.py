@@ -27,4 +27,7 @@ urlpatterns = [
     path("test_2/", include("test_2.urls")),
     path("test_3/", include("test_3.urls")),  # include our app URL
     path('test_4/', include('test_4.urls')),   # naya app
+    path('timer/', include('test_5.urls')),
+    path('test_6/', include('test_6.urls')),  # <-- link the new app
+    path('test_7/', include('test_7.urls')),
 ]

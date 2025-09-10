@@ -1,0 +1,81 @@
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Page</title>
+</head>
+<body>
+    <video id="myVideo" controls>
+        <source src="{% static 'test_7/videos/sample.mp4' %}" type="video/mp4">
+        Your browser does not support HTML video.
+    </video>
+
+    <script>
+        const video = document.getElementById("myVideo");
+
+        // Page load hote hi play
+        window.addEventListener("load", () => {
+            video.play().catch(err => console.log("Autoplay blocked:", err));
+        });
+
+        // Jab tab change/minimize → pause
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                video.pause();
+            } else {
+                video.play().catch(err => console.log("Autoplay blocked:", err));
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: black;
+        }
+        video {
+            width: 100vw;   /* viewport ki width */
+            height: 100vh;  /* viewport ki height */
+            object-fit: cover; /* video crop/zoom hoke bhi fullscreen cover kare */
+        }
+    </style>
+</head>
+<body>
+    <video id="myVideo" autoplay muted controls>
+        <source src="{% static 'test_7/videos/sample.mp4' %}" type="video/mp4">
+        Your browser does not support HTML video.
+    </video>
+
+    <script>
+        const video = document.getElementById("myVideo");
+
+        // Page load hote hi play (autoplay ke liye muted rakha hai)
+        window.addEventListener("load", () => {
+            video.play().catch(err => console.log("Autoplay blocked:", err));
+        });
+
+        // Jab tab change/minimize → pause
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                video.pause();
+            } else {
+                video.play().catch(err => console.log("Autoplay blocked:", err));
+            }
+        });
+    </script>
+</body>
+</html>

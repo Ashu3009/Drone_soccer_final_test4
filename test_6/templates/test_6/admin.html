@@ -17,7 +17,6 @@ let timeLeft = totalTime;
 let timerRunning = false;
 let timerInterval = null;
 
-// Initialize localStorage if empty
 if (!localStorage.getItem("timeLeft")) {
     localStorage.setItem("timeLeft", timeLeft);
 }

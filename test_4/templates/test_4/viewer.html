@@ -615,7 +615,7 @@ setInterval(update,1000);
         </div>
     </div>
 
-    <script>
+    {% comment %} <script>
         // Function to format time from seconds to MM:SS
         function formatTime(sec) {
             if (sec === undefined || sec === null) return "00:00";
@@ -683,10 +683,46 @@ setInterval(update,1000);
 
         // Auto-refresh every second (like code 2)
         setInterval(fetchScoreboardData, 1000);
-
         // Initial load
         fetchScoreboardData();
-    </script>
+    </script> {% endcomment %}
+
+    <script>
+    // Format time MM:SS
+    function formatTime(sec) {
+        if (sec === undefined || sec === null) return "00:00";
+        let m = Math.floor(sec/60);
+        let s = sec%60;
+        return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    }
+
+    function updateScoreboard() {
+        fetch("/test_4/get_timer/")   // <- apne URL ke hisaab se adjust karo
+        .then(response => response.json())
+        .then(data => {
+            // Team names
+            document.getElementById("team_red_name").textContent = data.team_red_name;
+            document.getElementById("team_blue_name").textContent = data.team_blue_name;
+
+            // Scores
+            document.getElementById("team_red_score").textContent = data.team_red_score;
+            document.getElementById("team_blue_score").textContent = data.team_blue_score;
+
+            // Timers
+            document.getElementById("main_timer").textContent = formatTime(data.main_timer);
+            document.getElementById("penalty_timer").textContent = formatTime(data.penalty_timer);
+
+            // Round
+            document.getElementById("round").textContent = data.round;
+        })
+        .catch(err => console.error("Error fetching data:", err));
+    }
+
+    // Call every second
+    setInterval(updateScoreboard, 1000);
+    updateScoreboard(); // pehli call turant
+</script>
+
 </body>
 </html>
 

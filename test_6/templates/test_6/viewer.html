@@ -19,10 +19,10 @@ function updateDisplay() {
 
 updateDisplay();
 
-// Poll localStorage every 100ms for changes
+// Poll localStorage every 100ms
 setInterval(() => {
     let newTime = parseInt(localStorage.getItem("timeLeft"));
-    if (isNaN(newTime)) newTime = 180; // default 3 min
+    if (isNaN(newTime)) newTime = 180;
     if (newTime !== timeLeft) {
         timeLeft = newTime;
         updateDisplay();

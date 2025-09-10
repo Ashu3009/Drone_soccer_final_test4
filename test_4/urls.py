@@ -19,10 +19,8 @@ urlpatterns = [
     path("pause_main/", views.pause_main),
     path("reset_main/", views.reset_main),
 
-    path("start_penalty/", views.start_penalty),
-    path("pause_penalty/", views.pause_penalty),
-    path("reset_penalty/", views.reset_penalty),
-
+   
     # fetch
     path("get_timer/", views.get_timer),
+
 ]

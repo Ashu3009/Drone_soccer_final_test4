@@ -1,36 +1,6 @@
-{% comment %} {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Video Page</title>
-</head>
-<body>
-    <video id="myVideo" controls>
-        <source src="{% static 'test_7/videos/sample.mp4' %}" type="video/mp4">
-        Your browser does not support HTML video.
-    </video>
+{% comment %} --------video with button ----------- {% endcomment %}
 
-    <script>
-        const video = document.getElementById("myVideo");
-
-        // Page load hote hi play
-        window.addEventListener("load", () => {
-            video.play().catch(err => console.log("Autoplay blocked:", err));
-        });
-
-        // Jab tab change/minimize → pause
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                video.pause();
-            } else {
-                video.play().catch(err => console.log("Autoplay blocked:", err));
-            }
-        });
-    </script>
-</body>
-</html> {% endcomment %}
 
 
 {% load static %}
@@ -52,9 +22,31 @@
             height: 100vh;  /* viewport ki height */
             object-fit: cover; /* video crop/zoom hoke bhi fullscreen cover kare */
         }
+        /* Redirect button style */
+        .redirect-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(145, 145, 224, 0.5);
+            color: rgba(145, 145, 224, 0.5);
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .redirect-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
+    <!-- Redirect button -->
+    <button class="redirect-btn" onclick="redirectToViewer()">  </button>
+    
     <video id="myVideo" autoplay muted controls>
         <source src="{% static 'test_7/videos/sample.mp4' %}" type="video/mp4">
         Your browser does not support HTML video.
@@ -76,6 +68,14 @@
                 video.play().catch(err => console.log("Autoplay blocked:", err));
             }
         });
+        
+        // Redirect function
+        function redirectToViewer() {
+            window.location.href = "{% url 'viewer' %}";
+        }
     </script>
 </body>
 </html>
+
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organization Video Display</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: Arial; background: #1a1a2e; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        .video-container { width: 100%; max-width: 1200px; text-align: center; }
+        .title { font-size: 42px; font-weight: bold; margin-bottom: 40px; color: #FFD700; }
+        .video-display { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 60px 40px; border: 3px solid rgba(255,215,0,0.3); }
+        .video-placeholder { background: #000; color: #FFD700; padding: 100px 50px; border-radius: 10px; font-size: 28px; margin: 20px 0; border: 2px dashed #FFD700; }
+        .video-info { font-size: 18px; color: rgba(255,255,255,0.8); margin-top: 20px; }
+        .footer { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 16px; color: rgba(255,215,0,0.7); }
+        .hidden { display: none !important; }
+        .redirect-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); color: white; padding: 30px 50px; border-radius: 15px; font-size: 24px; text-align: center; z-index: 1000; border: 2px solid #4ECDC4; }
+        .redirect-counter { font-size: 36px; color: #4ECDC4; margin-top: 15px; }
+        .play-button { display: inline-block; font-size: 60px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div id="videoContent" class="video-container">
+        <div class="title">Organization Presentation</div>
+        
+        <div class="video-display">
+            <div class="video-placeholder">
+                <div class="play-button">▶️</div>
+                <div>Organization Video Playing</div>
+                <div style="font-size: 16px; margin-top: 20px; color: rgba(255,215,0,0.7);">
+                    [Replace this section with actual video element]
+                </div>
+            </div>
+            
+            <div class="video-info">
+                Welcome to our organization presentation<br>
+                Video will play automatically when loaded<br>
+                Admin can switch back to scoreboard anytime
+            </div>
+        </div>
+        
+        <div class="footer">Organization Video Display</div>
+    </div>
+    
+    <div id="redirectMessage" class="redirect-message hidden">
+        <div>Switching back to Scoreboard...</div>
+        <div class="redirect-counter" id="countdown">3</div>
+    </div>
+
+    <script>
+        function checkForCommands() {
+            const displayMode = localStorage.getItem('displayMode');
+            if (displayMode === 'v1') {
+                showRedirectMessage();
+            }
+        }
+        
+        function showRedirectMessage() {
+            document.getElementById('videoContent').classList.add('hidden');
+            document.getElementById('redirectMessage').classList.remove('hidden');
+            
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = '/test_9/v1/';
+                }
+            }, 1000);
+        }
+        
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'switchCommand') {
+                checkForCommands();
+            }
+        });
+        
+        setInterval(checkForCommands, 2000);
+        
+        function initialize() {
+            checkForCommands();
+        }
+        
+        window.onload = initialize;
+    </script>
+</body>
+</html>

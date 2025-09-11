@@ -1,50 +1,7 @@
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Viewer</title>
-</head>
-<body>
-  <h1>Game Scoreboard</h1>
 
-  <h2>Game Timer: <span id="game_timer">3:00</span></h2>
-  <h2>Penalty Timer: <span id="penalty_timer">0:10</span></h2>
-  <h2>Round: <span id="round">1</span></h2>
+{% comment %} -------------------------------------------- {% endcomment %}
 
-  <h3><span id="teamAName">Team A</span> : <span id="scoreA">0</span></h3>
-  <h3><span id="teamBName">Team B</span> : <span id="scoreB">0</span></h3>
-
-<script>
-function updateFromStorage(){
-  document.getElementById("game_timer").innerText =
-    format(localStorage.getItem("gameTime")||180);
-  document.getElementById("penalty_timer").innerText =
-    format(localStorage.getItem("penaltyTime")||10);
-  document.getElementById("round").innerText =
-    localStorage.getItem("round")||1;
-  document.getElementById("teamAName").innerText =
-    localStorage.getItem("teamAName")||"Team A";
-  document.getElementById("teamBName").innerText =
-    localStorage.getItem("teamBName")||"Team B";
-  document.getElementById("scoreA").innerText =
-    localStorage.getItem("scoreA")||0;
-  document.getElementById("scoreB").innerText =
-    localStorage.getItem("scoreB")||0;
-}
-
-function format(sec){
-  sec = parseInt(sec);
-  const m=Math.floor(sec/60), s=sec%60;
-  return `${m}:${s.toString().padStart(2,'0')}`;
-}
-
-setInterval(updateFromStorage,100); // polling every 100ms
-updateFromStorage();
-</script>
-</body>
-</html> {% endcomment %}
-
-
+{% comment %} code with video--- {% endcomment %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -494,6 +451,26 @@ updateFromStorage();
             z-index: 2;
         }
 
+        /* Redirect button style */
+        .redirect-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(136, 135, 224, 0.5);
+            color: rgba(136, 135, 224, 0.5);
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 75px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .redirect-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         /* Animation for score updates */
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -507,6 +484,9 @@ updateFromStorage();
     </style>
 </head>
 <body>
+    <!-- Redirect button -->
+    <button class="redirect-btn" onclick="redirectToVideo()"></button>
+    
     <div class="container">
         <div class="header">
             <h1 class="main-title">DRONE SOCCER</h1>
@@ -570,6 +550,13 @@ updateFromStorage();
             sec = parseInt(sec);
             const m = Math.floor(sec/60), s = sec%60;
             return `${m}:${s.toString().padStart(2,'0')}`;
+        }
+        
+        // Redirect function
+        function redirectToVideo() {
+            window.location.href = "{% url 'video' %}";  // Django URL name for video
+            // Agar URL name nahi hai to direct path bhi de sakte hain:
+            // window.location.href = "/video/";
         }
 
         // Har 100ms par data update karega

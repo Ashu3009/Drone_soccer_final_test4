@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Control Panel</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+        .control-section { background: #e8f4fd; padding: 25px; margin: 20px 0; border-radius: 8px; }
+        .status { text-align: center; padding: 15px; margin: 20px 0; border-radius: 8px; font-weight: bold; }
+        .status.scoreboard-active { background: #c8e6c9; color: #2e7d32; }
+        .status.video-active { background: #ffecb3; color: #f57f17; }
+        .switch-btn { width: 100%; padding: 20px; font-size: 18px; border: none; border-radius: 8px; cursor: pointer; margin: 15px 0; }
+        .switch-btn.to-video { background: #ff9800; color: white; }
+        .switch-btn.to-scoreboard { background: #f44336; color: white; }
+        .score-section { background: #f3e5f5; padding: 25px; margin: 20px 0; border-radius: 8px; }
+        .score-input { width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .update-btn { width: 100%; padding: 15px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; margin-top: 15px; }
+        .links-section { background: #fff3e0; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .link-btn { display: inline-block; padding: 10px 20px; margin: 5px 10px 5px 0; background: #2196F3; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Competition Admin Panel</h1>
+        
+        <div class="links-section">
+            <h3>Quick Links:</h3>
+            <a href="/test_9/v1/" target="_blank" class="link-btn">Open Scoreboard (v1)</a>
+            <a href="/test_9/v2/" target="_blank" class="link-btn">Open Video Page (v2)</a>
+        </div>
+        
+        <div class="control-section">
+            <h3>Display Control</h3>
+            <div id="displayStatus" class="status scoreboard-active">Current Display: SCOREBOARD (v1.html)</div>
+            <button id="switchBtn" class="switch-btn to-video" onclick="switchDisplay()">Switch to Organization Video (v2.html)</button>
+        </div>
+        
+        <div class="score-section">
+            <h3>Update Scores</h3>
+            <label>Team A Name:</label>
+            <input type="text" id="teamAName" class="score-input" value="Team Alpha">
+            <label>Team A Score:</label>
+            <input type="number" id="teamAScore" class="score-input" value="0">
+            <label>Team B Name:</label>
+            <input type="text" id="teamBName" class="score-input" value="Team Beta">
+            <label>Team B Score:</label>
+            <input type="number" id="teamBScore" class="score-input" value="0">
+            <button class="update-btn" onclick="updateScores()">Update Scoreboard</button>
+        </div>
+    </div>
+
+    <script>
+        let currentDisplay = 'v1';
+        
+        function switchDisplay() {
+            if (currentDisplay === 'v1') {
+                currentDisplay = 'v2';
+                updateUI();
+                localStorage.setItem('displayMode', 'v2');
+                localStorage.setItem('switchCommand', Date.now().toString());
+            } else {
+                currentDisplay = 'v1';
+                updateUI();
+                localStorage.setItem('displayMode', 'v1');
+                localStorage.setItem('switchCommand', Date.now().toString());
+            }
+        }
+        
+        function updateUI() {
+            const statusDiv = document.getElementById('displayStatus');
+            const switchBtn = document.getElementById('switchBtn');
+            
+            if (currentDisplay === 'v1') {
+                statusDiv.textContent = 'Current Display: SCOREBOARD (v1.html)';
+                statusDiv.className = 'status scoreboard-active';
+                switchBtn.textContent = 'Switch to Organization Video (v2.html)';
+                switchBtn.className = 'switch-btn to-video';
+            } else {
+                statusDiv.textContent = 'Current Display: ORGANIZATION VIDEO (v2.html)';
+                statusDiv.className = 'status video-active';
+                switchBtn.textContent = 'Switch to Scoreboard (v1.html)';
+                switchBtn.className = 'switch-btn to-scoreboard';
+            }
+        }
+        
+        function updateScores() {
+            const scoreData = {
+                teamAName: document.getElementById('teamAName').value,
+                teamAScore: document.getElementById('teamAScore').value,
+                teamBName: document.getElementById('teamBName').value,
+                teamBScore: document.getElementById('teamBScore').value,
+                timestamp: Date.now()
+            };
+            
+            localStorage.setItem('scoreData', JSON.stringify(scoreData));
+            localStorage.setItem('scoreUpdate', Date.now().toString());
+            alert('Scores updated successfully!');
+        }
+        
+        function initialize() {
+            localStorage.setItem('displayMode', currentDisplay);
+            updateUI();
+        }
+        
+        window.onload = initialize;
+    </script>
+</body>
+</html>

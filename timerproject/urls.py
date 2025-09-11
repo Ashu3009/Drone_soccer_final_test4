@@ -30,4 +30,6 @@ urlpatterns = [
     path('timer/', include('test_5.urls')),
     path('test_6/', include('test_6.urls')),  # <-- link the new app
     path('test_7/', include('test_7.urls')),
+    path('test_9/', include('test_9.urls')),
 ]
+

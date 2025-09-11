@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scoreboard Display</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial; background: #667eea; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        .scoreboard-container { width: 100%; max-width: 1200px; text-align: center; }
+        .title { font-size: 48px; font-weight: bold; margin-bottom: 50px; }
+        .teams-container { display: flex; justify-content: space-around; align-items: center; margin: 40px 0; }
+        .team { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 40px 30px; min-width: 300px; border: 2px solid rgba(255,255,255,0.2); }
+        .team-name { font-size: 32px; font-weight: bold; margin-bottom: 20px; }
+        .team-score { font-size: 80px; font-weight: bold; color: #FFD700; margin: 20px 0; }
+        .vs-divider { font-size: 36px; font-weight: bold; color: rgba(255,255,255,0.8); }
+        .footer { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 18px; color: rgba(255,255,255,0.7); }
+        .hidden { display: none !important; }
+        .redirect-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 30px 50px; border-radius: 15px; font-size: 24px; text-align: center; z-index: 1000; }
+        .redirect-counter { font-size: 36px; color: #FFD700; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div id="scoreboardContent" class="scoreboard-container">
+        <div class="title">Competition Scoreboard</div>
+        
+        <div class="teams-container">
+            <div class="team">
+                <div class="team-name" id="teamAName">Team Alpha</div>
+                <div class="team-score" id="teamAScore">0</div>
+            </div>
+            <div class="vs-divider">VS</div>
+            <div class="team">
+                <div class="team-name" id="teamBName">Team Beta</div>
+                <div class="team-score" id="teamBScore">0</div>
+            </div>
+        </div>
+        
+        <div class="footer">Live Scoreboard</div>
+    </div>
+    
+    <div id="redirectMessage" class="redirect-message hidden">
+        <div>Switching to Organization Video...</div>
+        <div class="redirect-counter" id="countdown">3</div>
+    </div>
+
+    <script>
+        function checkForCommands() {
+            const displayMode = localStorage.getItem('displayMode');
+            if (displayMode === 'v2') {
+                showRedirectMessage();
+            }
+        }
+        
+        function showRedirectMessage() {
+            document.getElementById('scoreboardContent').classList.add('hidden');
+            document.getElementById('redirectMessage').classList.remove('hidden');
+            
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = '/test_9/v2/';
+                }
+            }, 1000);
+        }
+        
+        function updateScoresFromAdmin() {
+            const scoreData = localStorage.getItem('scoreData');
+            if (scoreData) {
+                try {
+                    const data = JSON.parse(scoreData);
+                    document.getElementById('teamAName').textContent = data.teamAName;
+                    document.getElementById('teamAScore').textContent = data.teamAScore;
+                    document.getElementById('teamBName').textContent = data.teamBName;
+                    document.getElementById('teamBScore').textContent = data.teamBScore;
+                } catch (e) {
+                    console.error('Error parsing score data:', e);
+                }
+            }
+        }
+        
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'switchCommand') {
+                checkForCommands();
+            } else if (e.key === 'scoreUpdate') {
+                updateScoresFromAdmin();
+            }
+        });
+        
+        setInterval(checkForCommands, 2000);
+        setInterval(updateScoresFromAdmin, 3000);
+        
+        function initialize() {
+            updateScoresFromAdmin();
+            checkForCommands();
+        }
+        
+        window.onload = initialize;
+    </script>
+</body>
+</html>

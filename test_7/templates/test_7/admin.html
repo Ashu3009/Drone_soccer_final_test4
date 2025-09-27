@@ -113,11 +113,31 @@ function nextRound(){ round++; displayRound(); }
 function prevRound(){ if(round>1) round--; displayRound(); }
 
 // Score control
-function changeScore(team,val){
+{% comment %} function changeScore(team,val){
   if(team=='A'){ scoreA+=val; if(scoreA<0)scoreA=0; }
   else{ scoreB+=val; if(scoreB<0)scoreB=0; }
   displayScores();
+} {% endcomment %}
+
+function changeScore(team, val) {
+  if (team == 'A') {
+    scoreA += val;
+    if (scoreA < 0) scoreA = 0;
+  } else {
+    scoreB += val;
+    if (scoreB < 0) scoreB = 0;
+  }
+
+  // ✅ Agar score increase hua hai (val > 0), tabhi sound bajao
+  if (val > 0) {
+    let audio = new Audio("/static/test_7/audio/score_3.mp3");  // apni sound file ka naam
+    audio.play();
+  }
+  displayScores();
 }
+
+
+
 
 // Init display
 displayGameTimer(); displayPenaltyTimer(); displayRound(); displayScores();

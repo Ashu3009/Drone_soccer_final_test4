@@ -3,6 +3,14 @@
 
 {% comment %} code with video--- {% endcomment %}
 
+
+
+
+
+{% comment %} --------------------------------------------------------- {% endcomment %}
+
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -451,29 +459,34 @@
             z-index: 2;
         }
 
-        /* Redirect button style */
-
-
-
-        .redirect-btn {
+        /* Logo button style */
+        .logo-btn {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 33px;
             z-index: 1000;
-            background: rgba(145, 145, 224, 0.5);
-            color: rgba(145, 145, 224, 0.5);
-            border: 1px solid white;
-            padding: 2px 2px;
-            border-radius: 50px;
+            background: transparent;
+            border: none;
             cursor: pointer;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+            padding: 0;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
             transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
-        .redirect-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        } 
-
+        
+        .logo-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+        
+        .logo-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* Animation for score updates */
         @keyframes pulse {
@@ -486,10 +499,13 @@
             animation: pulse 0.5s;
         }
     </style>
-</head>
+</head> 
 <body>
-    <!-- Redirect button -->
-    <button class="redirect-btn" onclick="redirectToVideo()"></button>
+    <!-- Logo redirect button -->
+    <button class="logo-btn" onclick="redirectToVideo()">
+        <img src="{% static 'test_7/photos/circular-logo.png' %}" alt="DroneNova Logo">
+    </button>
+
 
     <div class="container">
         <div class="header">
@@ -531,6 +547,7 @@
         </div>
     </div>
 
+
     <script>
         // Code 1 ka logic yahan implement kiya hai
         function updateFromStorage(){
@@ -570,15 +587,20 @@
         updateFromStorage();
     </script>
 </body>
-</html> 
+</html>  
 
 
 
 
 
-{% comment %} --------------------------------------------------------- {% endcomment %}
+
+
+{% comment %} ------------With the Alert after if game_time < 30 {% endcomment %}
+
+
 
 {% comment %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -623,7 +645,8 @@
                     transparent,
                     transparent 2px,
                     rgba(0, 255, 255, 0.03) 2px,
-                    rgba(0, 255, 255, 0.03) 4px);
+                    rgba(0, 255, 255, 0.03) 4px
+                );
             pointer-events: none;
             z-index: 1;
         }
@@ -727,7 +750,7 @@
             right: 0;
             bottom: 0;
             background: 
-                linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.03) 50%, transparent 70%);
+            linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.03) 50%, transparent 70%);
             border-radius: 25px;
             animation: shimmer 4s ease-in-out infinite;
         }
@@ -825,6 +848,21 @@
                 0 0 15px rgba(0, 255, 255, 0.3);
             position: relative;
             z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        /* Timer alert style - RED when 30 seconds or less */
+        .timer-alert {
+            color: #de0606ff !important;
+            text-shadow: 
+                0 0 15px rgba(255, 0, 0, 0.8),
+                0 0 30px rgba(255, 0, 0, 0.5) !important;
+            animation: pulse-red 1s infinite alternate;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
         .teams-section {
@@ -1026,24 +1064,33 @@
             z-index: 2;
         }
 
-        /* Notification style */
-        .notification {
+        /* Logo button style */
+        .logo-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            left: 33px;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: 1px solid white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
-        .notification.show {
-            opacity: 1;
+        
+        .logo-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+        
+        .logo-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Animation for score updates */
@@ -1057,13 +1104,14 @@
             animation: pulse 0.5s;
         }
     </style>
-</head>
+</head> 
 <body>
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        Press Context Menu key (near Page Up/Down) to switch to Video
-    </div>
-    
+    <!-- Logo redirect button -->
+    <button class="logo-btn" onclick="redirectToVideo()">
+        <img src="{% static 'test_7/photos/circular-logo.png' %}" alt="DroneNova Logo">
+    </button>
+
+
     <div class="container">
         <div class="header">
             <h1 class="main-title">DRONE SOCCER</h1>
@@ -1104,23 +1152,37 @@
         </div>
     </div>
 
+
     <script>
         // Code 1 ka logic yahan implement kiya hai
         function updateFromStorage(){
-            document.getElementById("game_timer").innerText =
-                format(localStorage.getItem("gameTime") || 180);
-            document.getElementById("penalty_timer").innerText =
-                format(localStorage.getItem("penaltyTime") || 10);
-            document.getElementById("round").innerText =
-                localStorage.getItem("round") || 1;
-            document.getElementById("teamAName").innerText =
-                localStorage.getItem("teamAName") || "Team A";
-            document.getElementById("teamBName").innerText =
-                localStorage.getItem("teamBName") || "Team B";
-            document.getElementById("scoreA").innerText =
-                localStorage.getItem("scoreA") || 0;
-            document.getElementById("scoreB").innerText =
-                localStorage.getItem("scoreB") || 0;
+            const gameTime = localStorage.getItem("gameTime") || 180;
+            const penaltyTime = localStorage.getItem("penaltyTime") || 10;
+            const round = localStorage.getItem("round") || 1;
+            const teamAName = localStorage.getItem("teamAName") || "Team A";
+            const teamBName = localStorage.getItem("teamBName") || "Team B";
+            const scoreA = localStorage.getItem("scoreA") || 0;
+            const scoreB = localStorage.getItem("scoreB") || 0;
+            
+            // Format and update game timer with alert logic
+            const gameTimerElement = document.getElementById("game_timer");
+            const formattedGameTime = format(gameTime);
+            gameTimerElement.innerText = formattedGameTime;
+
+            // Check if 30 seconds or less remaining
+            if (parseInt(gameTime) <= 178) {
+                gameTimerElement.classList.add("timer-alert");
+            } else {
+                gameTimerElement.classList.remove("timer-alert");
+            }
+            
+            // Update other elements
+            document.getElementById("penalty_timer").innerText = format(penaltyTime);
+            document.getElementById("round").innerText = round;
+            document.getElementById("teamAName").innerText = teamAName;
+            document.getElementById("teamBName").innerText = teamBName;
+            document.getElementById("scoreA").innerText = scoreA;
+            document.getElementById("scoreB").innerText = scoreB;
         }
 
         function format(sec){
@@ -1129,28 +1191,12 @@
             return `${m}:${s.toString().padStart(2,'0')}`;
         }
         
-        // Context Menu key (right click button near Page Up/Down) detection
-        document.addEventListener('keydown', function(event) {
-            // ContextMenu key code is 93
-            if (event.keyCode === 93) {
-                window.location.href = "{% url 'video' %}";
-            }
-        });
-        
-        // Page load hote hi notification show karega
-        window.addEventListener("load", () => {
-            // Notification show karega for 5 seconds
-            const notification = document.getElementById("notification");
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        });
-        
-        // Agar koi notification par click kare to hide ho jaye
-        document.getElementById("notification").addEventListener('click', function() {
-            this.classList.remove('show');
-        });
+        // Redirect function
+        function redirectToVideo() {
+            window.location.href = "{% url 'video' %}";  // Django URL name for video
+            // Agar URL name nahi hai to direct path bhi de sakte hain:
+            // window.location.href = "/video/";
+        }
 
         // Har 100ms par data update karega
         setInterval(updateFromStorage, 100);

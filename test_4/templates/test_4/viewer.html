@@ -615,77 +615,7 @@ setInterval(update,1000);
         </div>
     </div>
 
-    {% comment %} <script>
-        // Function to format time from seconds to MM:SS
-        function formatTime(sec) {
-            if (sec === undefined || sec === null) return "00:00";
-            let m = Math.floor(sec/60);
-            let s = sec%60;
-            return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }
-
-        // Function to update scoreboard data from backend
-        function updateScoreboard(data) {
-            document.getElementById('main_timer').textContent = formatTime(data.main_timer);
-            document.getElementById('round').textContent = data.round || '1';
-            document.getElementById('penalty_timer').textContent = formatTime(data.penalty_timer);
-            
-            // Update team names and scores
-            const redName = document.getElementById('team_red_name');
-            const blueName = document.getElementById('team_blue_name');
-            const redScore = document.getElementById('team_red_score');
-            const blueScore = document.getElementById('team_blue_score');
-            
-            // Update team names if they changed
-            if (redName.textContent !== data.team_red_name) {
-                redName.textContent = data.team_red_name || 'TEAM A';
-            }
-            
-            if (blueName.textContent !== data.team_blue_name) {
-                blueName.textContent = data.team_blue_name || 'TEAM B';
-            }
-            
-            // Update scores with animation if they changed
-            if (redScore.textContent !== data.team_red_score.toString()) {
-                redScore.textContent = data.team_red_score || '0';
-                redScore.classList.add('pulse');
-                setTimeout(() => redScore.classList.remove('pulse'), 500);
-            }
-            
-            if (blueScore.textContent !== data.team_blue_score.toString()) {
-                blueScore.textContent = data.team_blue_score || '0';
-                blueScore.classList.add('pulse');
-                setTimeout(() => blueScore.classList.remove('pulse'), 500);
-            }
-        }
-
-        // Function to fetch data from backend
-        async function fetchScoreboardData() {
-            try {
-                // Use the endpoint from code 2
-                const response = await fetch('/test_4/get_timer/');
-                const data = await response.json();
-                updateScoreboard(data);
-            } catch (error) {
-                console.error('Error fetching scoreboard data:', error);
-                // Fallback data for demonstration
-                updateScoreboard({
-                    main_timer: 720,
-                    round: 1,
-                    penalty_timer: 0,
-                    team_red_name: "RED EAGLES",
-                    team_blue_name: "BLUE HAWKS",
-                    team_red_score: 12,
-                    team_blue_score: 5
-                });
-            }
-        }
-
-        // Auto-refresh every second (like code 2)
-        setInterval(fetchScoreboardData, 1000);
-        // Initial load
-        fetchScoreboardData();
-    </script> {% endcomment %}
+    
 
     <script>
     // Format time MM:SS

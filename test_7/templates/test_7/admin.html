@@ -1,3 +1,5 @@
+{% comment %} --------------Admin with audio------------------- {% endcomment %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,9 +110,11 @@ function startPenaltyTimer(){
 function pausePenaltyTimer(){ clearInterval(penaltyInterval); penaltyRunning=false; }
 function resetPenaltyTimer(){ pausePenaltyTimer(); penaltyTime=10; displayPenaltyTimer(); }
 
+
 // Round control
 function nextRound(){ round++; displayRound(); }
 function prevRound(){ if(round>1) round--; displayRound(); }
+
 
 // Score control
 {% comment %} function changeScore(team,val){
@@ -118,6 +122,7 @@ function prevRound(){ if(round>1) round--; displayRound(); }
   else{ scoreB+=val; if(scoreB<0)scoreB=0; }
   displayScores();
 } {% endcomment %}
+
 
 function changeScore(team, val) {
   if (team == 'A') {
@@ -135,9 +140,6 @@ function changeScore(team, val) {
   }
   displayScores();
 }
-
-
-
 
 // Init display
 displayGameTimer(); displayPenaltyTimer(); displayRound(); displayScores();
